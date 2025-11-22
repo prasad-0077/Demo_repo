@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# Exit if any command fails
+set -e
+
+# Ask for a commit message
+echo "Enter commit message:"
+read message
+
+# Add all changes
+git add .
+
+# Commit with the entered message
+git commit -m "$message"
+
+# Push to main branch
+git push origin main
+
+echo "✔️ Push complete!"
+
+
+
+
