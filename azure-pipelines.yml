@@ -5,10 +5,10 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-  - task: UseNode@2
+  - task: NodeTool@0
     inputs:
-      version: '18.x'
-    displayName: 'Use Node.js'
+      versionSpec: '18.x'
+    displayName: 'install Node.js'
 
   - script: |
       npm install
