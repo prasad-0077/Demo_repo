@@ -12,7 +12,7 @@ pipeline {
                 // Checkout first repository with credentials
                 git(
                     url: 'https://github.com/prasad-0077/Demo_repo.git',
-                    credentialsId: 'github-pat', // replace with your Jenkins credential ID
+                    credentialsId: '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', // replace with your Jenkins credential ID
                     branch: 'main'
                 )
             }
@@ -27,7 +27,7 @@ pipeline {
                     extensions: [],
                     userRemoteConfigs: [[
                         url: 'https://github.com/prasad-0077/Jenkins.git',
-                        credentialsId: 'github-pat' // same PAT credential
+                        credentialsId: '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' // same PAT credential
                     ]]
                 ])
             }
