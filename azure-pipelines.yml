@@ -1,0 +1,29 @@
+trigger:
+  - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+  - task: UseNode@2
+    inputs:
+      version: '18.x'
+    displayName: 'Use Node.js'
+
+  - script: |
+      npm install
+    displayName: 'Install Dependencies'
+
+  - script: |
+      npm run build
+    displayName: 'Build Application'
+
+  - script: |
+      npm test
+    displayName: 'Run Tests'
+
+  - task: PublishBuildArtifacts@1
+    inputs:
+      pathToPublish: 'dist'
+      artifactName: 'drop'
+    displayName: 'Publish Build Artifacts'
