@@ -1,29 +1,51 @@
 pipeline {
     agent any
 
+    environment {
+        // Optional: set environment variables if needed
+    }
+
     stages {
-        stage('Checkout') {
+
+        stage('Checkout Demo_repo') {
             steps {
-                git 'https://github.com/prasad-0077/Jenkins.git'
+                // Checkout first repository with credentials
+                git(
+                    url: 'https://github.com/prasad-0077/Demo_repo.git',
+                    credentialsId: 'github-pat', // replace with your Jenkins credential ID
+                    branch: 'main'
+                )
             }
         }
 
-        stage('Install Dependencies') {
+        stage('Checkout Jenkins repo') {
             steps {
-                sh 'npm install'
-            }
-        }
-
-        stage('Run Tests') {
-            steps {
-                sh 'npm test'
+                // Checkout second repository with credentials
+                checkout([$class: 'GitSCM',
+                    branches: [[name: 'main']],
+                    doGenerateSubmoduleConfigurations: false,
+                    extensions: [],
+                    userRemoteConfigs: [[
+                        url: 'https://github.com/prasad-0077/Jenkins.git',
+                        credentialsId: 'github-pat' // same PAT credential
+                    ]]
+                ])
             }
         }
 
         stage('Build') {
             steps {
-                sh 'npm run build'
+                echo 'Building...'
+                // Your build steps here
             }
         }
+
+        stage('Test') {
+            steps {
+                echo 'Testing...'
+                // Your test steps here
+            }
+        }
+
     }
 }
