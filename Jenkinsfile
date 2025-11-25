@@ -20,7 +20,7 @@ pipeline {
                     doGenerateSubmoduleConfigurations: false,
                     extensions: [],
                     userRemoteConfigs: [[
-                        url: 'https://github.com/prasad-0077/Jenkins.git',
+                        url: 'https://github.com/prasad-0077/Demo_repo.git'',
                         credentialsId: 'MY_PAT'
                     ]]
                 ])
