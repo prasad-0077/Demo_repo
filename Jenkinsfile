@@ -5,37 +5,39 @@ pipeline {
 
         stage('Checkout Demo_repo') {
             steps {
-                git(
-                    url: 'https://github.com/prasad-0077/Demo_repo.git',
-                    credentialsId: 'MY_PAT',
-                    branch: 'main'
-                )
+                withCredentials([string(credentialsId: 'MY_PAT', variable: 'TOKEN')]) {
+                    git url: "https://${TOKEN}@github.com/prasad-0077/Demo_repo.git", branch: 'main'
+                }
             }
         }
 
-        stage('Checkout Jenkins repo') {
+        stage('Build Docker Image') {
             steps {
-                checkout([$class: 'GitSCM',
-                    branches: [[name: 'main']],
-                    doGenerateSubmoduleConfigurations: false,
-                    extensions: [],
-                    userRemoteConfigs: [[
-                        url: 'https://github.com/prasad-0077/Demo_repo.git',
-                        credentialsId: 'MY_PAT'
-                    ]]
-                ])
+                script {
+                    echo 'Building Docker image...'
+                    dockerImage = docker.build("myapp:latest")
+                }
+            }
+        }
+
+        stage('Run Docker Container') {
+            steps {
+                script {
+                    echo 'Running Docker container...'
+                    dockerImage.run("-p 3000:3000") // change ports if needed
+                }
             }
         }
 
         stage('Build') {
             steps {
-                echo 'Building...'
+                echo 'Other build steps (if any)...'
             }
         }
 
         stage('Test') {
             steps {
-                echo 'Testing...'
+                echo 'Running tests (if any)...'
             }
         }
 
