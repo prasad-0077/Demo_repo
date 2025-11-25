@@ -7,7 +7,7 @@ pipeline {
             steps {
                 git(
                     url: 'https://github.com/prasad-0077/Demo_repo.git',
-                    credentialsId: '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',
+                    credentialsId: 'MY_PAT',
                     branch: 'main'
                 )
             }
@@ -21,7 +21,7 @@ pipeline {
                     extensions: [],
                     userRemoteConfigs: [[
                         url: 'https://github.com/prasad-0077/Jenkins.git',
-                        credentialsId: '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'
+                        credentialsId: 'MY_PAT'
                     ]]
                 ])
             }
