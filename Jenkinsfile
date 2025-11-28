@@ -1,6 +1,11 @@
 pipeline {
     agent any
 
+    environment {
+        IMAGE_NAME = "myapp"
+        IMAGE_TAG  = "latest"
+    }
+
     stages {
 
         stage('Checkout Demo_repo') {
@@ -14,8 +19,8 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    echo 'Building Docker image...'
-                    dockerImage = docker.build("myapp:latest")
+                    echo "Building Docker image..."
+                    dockerImage = docker.build("${IMAGE_NAME}:${IMAGE_TAG}")
                 }
             }
         }
@@ -23,8 +28,15 @@ pipeline {
         stage('Run Docker Container') {
             steps {
                 script {
-                    echo 'Running Docker container...'
-                    dockerImage.run("-p 3000:3000") // change ports if needed
+                    echo "Running Docker container..."
+
+                    // Stop old container if running
+                    sh "docker rm -f myapp-container || true"
+
+                    // Run new container
+                    sh """
+                        docker run -d --name myapp-container -p 3000:3000 ${IMAGE_NAME}:${IMAGE_TAG}
+                    """
                 }
             }
         }
@@ -40,6 +52,11 @@ pipeline {
                 echo 'Running tests (if any)...'
             }
         }
+    }
 
+    post {
+        always {
+            echo "Pipeline completed!"
+        }
     }
 }
