@@ -1,29 +1,41 @@
 trigger:
-  - main
+- main
 
 pool:
   vmImage: 'ubuntu-latest'
 
+variables:
+  buildConfiguration: 'Release'
+
 steps:
-  - task: NodeTool@0
-    inputs:
-      versionSpec: '18.x'
-    displayName: 'install Node.js'
+- task: NodeTool@0
+  inputs:
+    versionSpec: '18.x'
+trigger:
+- main
 
-  - script: |
-      npm install
-    displayName: 'Install Dependencies'
+pool:
+  vmImage: 'ubuntu-latest'
 
-  - script: |
-      npm run build
-    displayName: 'Build Application'
+variables:
+  buildConfiguration: 'Release'
 
-  - script: |
-      npm test
-    displayName: 'Run Tests'
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '18.x'  
+displayName: 'Install Node.js'
 
-  - task: PublishBuildArtifacts@1
-    inputs:
-      pathToPublish: 'dist'
-      artifactName: 'drop'
-    displayName: 'Publish Build Artifacts'
+- script: npm install
+  displayName: 'Install dependencies'
+
+- script: npm run build
+  displayName: 'Build application'
+
+- script: npm test
+  displayName: 'Run tests'
+
+- script: |
+    echo "Deploying app..."
+    ssh user@server 'bash /var/www/myapp/deploy.sh'
+  displayName: 'Deploy to server'
