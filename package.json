@@ -1,0 +1,21 @@
+{
+  "name": "demo_repo",
+  "version": "1.0.0",
+  "description": "This repo is for demo purpose.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prasad-0077/Demo_repo.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/prasad-0077/Demo_repo/issues"
+  },
+  "homepage": "https://github.com/prasad-0077/Demo_repo#readme"
+}
