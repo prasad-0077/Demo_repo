@@ -36,19 +36,17 @@ pipeline {
         stage('Run Docker Container') {
             steps {
                 script {
-                    echo "Running Docker container..."
+                sh '''
+                export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
 
-                    // Stop old container if running
-                    sh "docker rm -f myapp-container || true"
+                echo "Running Docker container..."
 
-                    // Run new container
-                    sh """
-                        docker run -d --name myapp-container -p 3000:3000 ${IMAGE_NAME}:${IMAGE_TAG}
-                    """
-                }
-            }
+                docker rm -f myapp-container || true
+                docker run -d --name myapp-container -p 3000:3000 myapp:latest
+                '''
         }
-
+    }
+}
         stage('Build') {
             steps {
                 echo 'Other build steps (if any)...'
