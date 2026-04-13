@@ -17,12 +17,20 @@ pipeline {
         }
         stage('Check Docker') {
            steps {
-            sh 'which docker'
-             sh 'docker --version'
+                sh '''
+                export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+                echo "PATH is: $PATH"
+                sh which docker
+                sh docker --version
+                '''
     }
 }
         stage('Build Docker Image') {
             steps {
+                sh '''
+                export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+                docker build -t myapp:latest .
+                '''
                 script {
                     echo "Building Docker image..."
                     dockerImage = docker.build("${IMAGE_NAME}:${IMAGE_TAG}")
